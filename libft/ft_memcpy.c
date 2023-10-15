@@ -17,6 +17,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	const char	*src2;
 	size_t		i;
 
+	if (!dest && !src)
+		return (0);
 	i = 0;
 	dest2 = dest;
 	src2 = src;

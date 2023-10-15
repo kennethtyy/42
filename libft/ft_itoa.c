@@ -28,14 +28,16 @@ int	itoa_numspace(int n)
 	return (numspace);
 }
 
-char	*itoa_neg(int n)
+char	*itoa_neg(long int n)
 {
-	int		i;
-	int		numspace;
-	char	*s;
+	long int	i;
+	long int	numspace;
+	char		*s;
 
 	numspace = itoa_numspace(n);
 	s = (char *) malloc (sizeof(char) * (numspace + 1));
+	if (!s)
+		return (0);
 	i = 1;
 	s[0] = '-';
 	n = n * -1;
@@ -57,6 +59,8 @@ char	*itoa_pos(int n)
 
 	numspace = itoa_numspace(n);
 	s = (char *) malloc (sizeof(char) * (numspace + 1));
+	if (!s)
+		return (0);
 	i = 0;
 	s[numspace] = '\0';
 	while (i < numspace)

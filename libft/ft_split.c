@@ -68,14 +68,11 @@ char	**ft_split(char const *s, char c)
 	char	**arr_s;
 	int		num_substr;
 
-	if (s == NULL || s[0] == '\0')
-		return (0);
 	num_substr = split_numsubstr(s, c);
-	if (s[0] != '\0')
-	{
-		arr_s = (char **) malloc (sizeof(char *) * num_substr + 1);
-		arr_s[num_substr] = NULL;
-		split_allocstr(s, c, &arr_s);
-	}
+	arr_s = (char **) malloc (sizeof(char *) * num_substr + 1);
+	if (!s || !arr_s)
+		return (0);
+	arr_s[num_substr] = NULL;
+	split_allocstr(s, c, &arr_s);
 	return (arr_s);
 }
