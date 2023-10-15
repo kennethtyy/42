@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kentan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -119,4 +119,33 @@ int main()
 	//ft_strdup
 	char s[] = "testing 123";
 	printf("%s\n",ft_strdup(s));
+
+	//ft_split
+	char s[] = "this is a test";
+	char c = ' ';
+	int i = 0;
+	char **ss = ft_split(s,c);
+	for (i; i < 4; i++)
+	{
+		printf("%s\n",ss[i]);
+	}
+}
+
+	//ft_strjoin
+	char s1[] = "prefix";
+	char s2[] = "suffix";
+	printf("%s\n", ft_strjoin(s1,s2));
+
+	//ft_strmapi.c
+	char s[] = "testing 123";
+	printf("%s\n",ft_strmapi(s,&toupper));
+
+	//ft_strtrim
+	char s1[] = "this is a test";
+	char set[] = "this ";
+	printf("%s\n", ft_strtrim(s1,set));
+
+	//ft_substr
+	char s[] = "this is a test of the function substr";
+	printf("%s\n",ft_substr(s,5,6));
 }
