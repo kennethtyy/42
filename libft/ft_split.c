@@ -11,68 +11,49 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-static int	split_numsubstr(char const *s, char c)
+static size_t	ft_countword(char const *s, char c)
 {
-	int	num_substr;
-	int	in_substr;
+	size_t	count;
 
-	num_substr = 0;
-	in_substr = 0;
-	while (*s != '\0')
+	if (!*s)
+		return (0);
+	count = 0;
+	while (*s)
 	{
-		if (*s != c)
-			in_substr = 1;
-		else
-		{
-			if (in_substr == 1)
-			{
-				num_substr++;
-				in_substr = 0;
-			}
-		}
-		s++;
+		while (*s == c)
+			s++;
+		if (*s)
+			count++;
+		while (*s != c && *s)
+			s++;
 	}
-	if (in_substr == 1)
-		num_substr++;
-	return (num_substr);
-}
-
-static void	split_allocstr(char const *s, char c, char ***arr_s)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	k = 0;
-	i = 0;
-	j = 1;
-	while (s[i] != '\0')
-	{
-		if (s[i] != c)
-		{
-			while (s[i + j] != c && (s[i + j] != '\0'))
-				j++;
-			(*arr_s)[k] = (char *) malloc (sizeof(char) * (j + 1));
-			ft_strlcpy((*arr_s)[k], &s[i], (j + 1));
-			k++;
-			i = i + j;
-			j = 1;
-		}
-		if (s[i] != '\0')
-			i++;
-	}
+	return (count);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**arr_s;
-	int		num_substr;
+	char	**lst;
+	size_t	word_len;
+	int		i;
 
-	num_substr = split_numsubstr(s, c);
-	arr_s = (char **) malloc (sizeof(char *) * num_substr + 1);
-	if (!s || !arr_s)
+	lst = (char **)malloc((ft_countword(s, c) + 1) * sizeof(char *));
+	if (!s || !lst)
 		return (0);
-	arr_s[num_substr] = NULL;
-	split_allocstr(s, c, &arr_s);
-	return (arr_s);
+	i = 0;
+	while (*s)
+	{
+		while (*s == c && *s)
+			s++;
+		if (*s)
+		{
+			if (!ft_strchr(s, c))
+				word_len = ft_strlen(s);
+			else
+				word_len = ft_strchr(s, c) - s;
+			lst[i++] = ft_substr(s, 0, word_len);
+			s += word_len;
+		}
+	}
+	lst[i] = NULL;
+	return (lst);
 }
