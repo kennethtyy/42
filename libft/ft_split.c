@@ -11,33 +11,40 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-static size_t	ft_countword(char const *s, char c)
+static size_t	split_numsubstr(char const *s, char c)
 {
-	size_t	count;
+	int	num_substr;
+	int	in_substr;
 
-	if (!*s)
-		return (0);
-	count = 0;
-	while (*s)
+	num_substr = 0;
+	in_substr = 0;
+	while (*s != '\0')
 	{
-		while (*s == c)
-			s++;
-		if (*s)
-			count++;
-		while (*s != c && *s)
-			s++;
+		if (*s != c)
+			in_substr = 1;
+		else
+		{
+			if (in_substr == 1)
+			{
+				num_substr++;
+				in_substr = 0;
+			}
+		}
+		s++;
 	}
-	return (count);
+	if (in_substr == 1)
+		num_substr++;
+	return (num_substr);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**lst;
-	size_t	word_len;
+	char	**arr_str;
+	size_t	substr_len;
 	int		i;
 
-	lst = (char **)malloc((ft_countword(s, c) + 1) * sizeof(char *));
-	if (!s || !lst)
+	arr_str = (char **) malloc ((split_numsubstr(s, c) + 1) * sizeof(char *));
+	if (!s || !arr_str)
 		return (0);
 	i = 0;
 	while (*s)
@@ -46,14 +53,14 @@ char	**ft_split(char const *s, char c)
 			s++;
 		if (*s)
 		{
-			if (!ft_strchr(s, c))
-				word_len = ft_strlen(s);
+			if (ft_strchr(s, c))
+				substr_len = ft_strchr(s, c) - s;
 			else
-				word_len = ft_strchr(s, c) - s;
-			lst[i++] = ft_substr(s, 0, word_len);
-			s += word_len;
+				substr_len = ft_strlen(s);
+			arr_str[i++] = ft_substr(s, 0, substr_len);
+			s = s + substr_len;
 		}
 	}
-	lst[i] = NULL;
-	return (lst);
+	arr_str[i] = NULL;
+	return (arr_str);
 }
